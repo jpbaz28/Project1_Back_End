@@ -2,15 +2,20 @@ import Express from 'express';
 import { employeeDAOAzure } from './DAOs/employee-dao-azure';
 import Employee from './Entities/employee';
 import Reimburse from './Entities/reimburse';
+import { LoginService, LoginServiceImp } from './Services/login-service';
 import { ReimburseService } from './Services/reimburse-service';
 import { ReimburseServiceImp } from './Services/reimburse-service-imp';
+import cors from 'cors';
 
 const app = Express();
 app.use(Express.json());
+app.use(cors());
 
 const reimburseService: ReimburseService = new ReimburseServiceImp(
   employeeDAOAzure
 );
+
+const loginService: LoginService = new LoginServiceImp(employeeDAOAzure);
 
 //get all emp
 app.get('/employees', async (req, res) => {
@@ -42,6 +47,19 @@ app.post('/employees/:id/reimbursements', async (req, res) => {
   const reimburse: Reimburse = req.body;
   await reimburseService.addReimburseToEmp(req.params.id, reimburse);
   res.send(reimburse);
+});
+
+app.patch('/login', async (req, res) => {
+  try {
+    const body: { username: string; password: string } = req.body;
+    const emp: Employee = await loginService.loginWithUserAndPass(
+      body.username,
+      body.password
+    );
+    res.send(emp);
+  } catch (error) {
+    res.send('Unable to login. Check that username and password are correct.');
+  }
 });
 
 app.listen(5000, () => console.log('App Started!'));

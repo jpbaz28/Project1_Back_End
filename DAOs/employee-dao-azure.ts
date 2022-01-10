@@ -58,20 +58,8 @@ class EmployeeDAOAzure implements EmployeeDAO {
   }
 
   async getEmpByUsername(uname: string): Promise<Employee> {
-    const emps = await this.container.items.readAll<Employee>().fetchAll();
-    const empArray = emps.resources.map((e) => ({
-      id: e.id,
-      fname: e.fname,
-      lname: e.lname,
-      username: e.username,
-      password: e.password,
-      reimburseAccount: e.reimburseAccount,
-      isManager: e.isManager,
-      department: e.department,
-    }));
-    const filterEmps = empArray.filter((emp) => emp.username === uname);
-    //could throw if check here to see if array is bigger than one
-    return filterEmps.pop();
+    const emps = await this.getAllEmp();
+    return emps.find((e) => e.username === uname);
   }
   async getAllEmp(): Promise<Employee[]> {
     const emps = await this.container.items.readAll<Employee>().fetchAll();
