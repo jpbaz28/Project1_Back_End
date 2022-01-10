@@ -5,6 +5,8 @@ export default interface EmployeeDAO {
 
   getEmpById(empId: string): Promise<Employee>;
 
+  getEmpByUsername(username: string): Promise<Employee>;
+
   getAllEmp(): Promise<Employee[]>;
 
   updateEmp(emp: Employee): Promise<Employee>;

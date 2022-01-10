@@ -19,9 +19,15 @@ app.get('/employees', async (req, res) => {
 });
 
 // get emp by id
-app.get('/employees/:id', async (req, res) => {
-  const { id } = req.params;
-  const emp: Employee = await reimburseService.retrieveEmpById(id);
+// app.get('/employees/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const emp: Employee = await reimburseService.retrieveEmpById(id);
+//   res.send(emp);
+// });
+
+app.get('/employees/:username', async (req, res) => {
+  const { username } = req.params;
+  const emp: Employee = await reimburseService.retrieveEmpByUsername(username);
   res.send(emp);
 });
 

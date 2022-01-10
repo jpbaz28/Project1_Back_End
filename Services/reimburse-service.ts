@@ -8,5 +8,7 @@ export interface ReimburseService {
 
   retrieveEmpById(empId: string): Promise<Employee>;
 
+  retrieveEmpByUsername(username: string): Promise<Employee>;
+
   retrieveAllEmps(): Promise<Employee[]>;
 }

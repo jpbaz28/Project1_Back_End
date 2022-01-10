@@ -25,6 +25,11 @@ export class ReimburseServiceImp implements ReimburseService {
   async retrieveEmpById(empId: string): Promise<Employee> {
     return this.employeeDAO.getEmpById(empId);
   }
+
+  retrieveEmpByUsername(username: string): Promise<Employee> {
+    return this.employeeDAO.getEmpByUsername(username);
+  }
+
   async retrieveAllEmps(): Promise<Employee[]> {
     return this.employeeDAO.getAllEmp();
   }
