@@ -17,12 +17,30 @@ export class ReimburseServiceImp implements ReimburseService {
     await this.employeeDAO.updateEmp(emp);
     return emp;
   }
+
+  async getAllReimburses(): Promise<Reimburse[]> {
+    const emps: Employee[] = await this.employeeDAO.getAllEmp();
+    // creates an array of object arrays [[{}],[{}],[{}]]
+    const reimburses = emps.map((e) => e.reimburseAccount);
+    //merges the objects into one array
+    const mergedReimburses = [].concat.apply([], reimburses);
+    return mergedReimburses;
+  }
+
+  async getReimbursesForEmp(empId: string): Promise<Reimburse[]> {
+    const emp: Employee = await this.employeeDAO.getEmpById(empId);
+    return emp.reimburseAccount;
+  }
+  getReimburseById(reimburseId: string): Promise<Reimburse> {
+    throw new Error('Method not implemented.');
+  }
+
   async addEmp(emp: Employee): Promise<Employee> {
     emp.reimburseAccount = emp.reimburseAccount ?? [];
     emp = await this.employeeDAO.createEmp(emp);
     return emp;
   }
-  async retrieveEmpById(empId: string): Promise<Employee> {
+  retrieveEmpById(empId: string): Promise<Employee> {
     return this.employeeDAO.getEmpById(empId);
   }
 
@@ -30,7 +48,15 @@ export class ReimburseServiceImp implements ReimburseService {
     return this.employeeDAO.getEmpByUsername(username);
   }
 
-  async retrieveAllEmps(): Promise<Employee[]> {
+  retrieveAllEmps(): Promise<Employee[]> {
     return this.employeeDAO.getAllEmp();
+  }
+
+  modifyEmp(emp: Employee): Promise<Employee> {
+    return this.employeeDAO.updateEmp(emp);
+  }
+
+  removeEmpById(empId: string): Promise<boolean> {
+    return this.employeeDAO.deleteEmp(empId);
   }
 }

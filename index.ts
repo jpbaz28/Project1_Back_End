@@ -36,6 +36,18 @@ app.get('/employees/:username', async (req, res) => {
   res.send(emp);
 });
 
+app.get('/reimbursements', async (req, res) => {
+  const reimburses: Reimburse[] = await reimburseService.getAllReimburses();
+  res.status(200).send(reimburses);
+});
+
+app.get('/reimbursements/:id', async (req, res) => {
+  const reimburses: Reimburse[] = await reimburseService.getReimbursesForEmp(
+    req.params.id
+  );
+  res.status(200).send(reimburses);
+});
+
 //add emp
 app.post('/employees', async (req, res) => {
   let emp: Employee = req.body;
@@ -49,6 +61,12 @@ app.post('/employees/:id/reimbursements', async (req, res) => {
   res.send(reimburse);
 });
 
+app.put('/employees/:id', async (req, res) => {
+  const updatedEmp: Employee = req.body;
+  const newEmp: Employee = await reimburseService.modifyEmp(updatedEmp);
+  res.status(200).send(newEmp);
+});
+
 app.patch('/login', async (req, res) => {
   try {
     const body: { username: string; password: string } = req.body;
@@ -59,6 +77,17 @@ app.patch('/login', async (req, res) => {
     res.send(emp);
   } catch (error) {
     res.send('Unable to login. Check that username and password are correct.');
+  }
+});
+
+app.delete('/employees/:id', async (req, res) => {
+  const status: boolean = await reimburseService.removeEmpById(req.params.id);
+  if (status) {
+    res.status(202).send(`Deleted employee with id ${req.params.id}`);
+  } else {
+    res
+      .status(404)
+      .send(`Employee with id ${req.params.id} could not be located.`);
   }
 });
 
