@@ -6,7 +6,6 @@ export default interface Employee {
   lname: string;
   username: string;
   password: string;
-  reimburseAccount: Reimburse[];
   isManager: boolean;
-  department: string;
+  reimburseAccount: Reimburse[];
 }

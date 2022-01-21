@@ -30,22 +30,33 @@ app.get('/employees', async (req, res) => {
 //   res.send(emp);
 // });
 
+//get emp by username
 app.get('/employees/:username', async (req, res) => {
   const { username } = req.params;
   const emp: Employee = await reimburseService.retrieveEmpByUsername(username);
   res.send(emp);
 });
 
+//get all reimbursements
 app.get('/reimbursements', async (req, res) => {
   const reimburses: Reimburse[] = await reimburseService.getAllReimburses();
   res.status(200).send(reimburses);
 });
 
-app.get('/reimbursements/:id', async (req, res) => {
+//get all reimbursements for emp by name
+app.get('/reimbursements/:username', async (req, res) => {
   const reimburses: Reimburse[] = await reimburseService.getReimbursesForEmp(
-    req.params.id
+    req.params.username
   );
   res.status(200).send(reimburses);
+});
+
+app.get('/reimbursements/:username/:reimId', async (req, res) => {
+  const reimburse: Reimburse = await reimburseService.getSingleReimForEmp(
+    req.params.username,
+    req.params.reimId
+  );
+  res.status(200).send(reimburse);
 });
 
 //add emp
@@ -55,18 +66,21 @@ app.post('/employees', async (req, res) => {
   res.status(201).send(emp);
 });
 
+//add reimbursement
 app.post('/employees/:id/reimbursements', async (req, res) => {
   const reimburse: Reimburse = req.body;
   await reimburseService.addReimburseToEmp(req.params.id, reimburse);
   res.send(reimburse);
 });
 
+//update emp
 app.put('/employees/:id', async (req, res) => {
   const updatedEmp: Employee = req.body;
   const newEmp: Employee = await reimburseService.modifyEmp(updatedEmp);
   res.status(200).send(newEmp);
 });
 
+//login route
 app.patch('/login', async (req, res) => {
   try {
     const body: { username: string; password: string } = req.body;
@@ -80,6 +94,25 @@ app.patch('/login', async (req, res) => {
   }
 });
 
+//approve reimbursement for emp
+app.patch('/reimbursements/approve/:username/:reimId', async (req, res) => {
+  const emp = await reimburseService.approveReimForEmp(
+    req.params.username,
+    req.params.reimId
+  );
+  res.status(200).send(emp);
+});
+
+//deny reimbursement for emp
+app.patch('/reimbursements/deny/:username/:reimId', async (req, res) => {
+  const emp = await reimburseService.denyReimForEmp(
+    req.params.username,
+    req.params.reimId
+  );
+  res.status(200).send(emp);
+});
+
+//delete emp
 app.delete('/employees/:id', async (req, res) => {
   const status: boolean = await reimburseService.removeEmpById(req.params.id);
   if (status) {

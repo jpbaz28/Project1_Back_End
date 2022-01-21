@@ -13,6 +13,7 @@ export class ReimburseServiceImp implements ReimburseService {
   ): Promise<Employee> {
     reimburse.id = v4();
     const emp: Employee = await this.employeeDAO.getEmpById(empId);
+    reimburse.username = emp.username;
     emp.reimburseAccount.push(reimburse);
     await this.employeeDAO.updateEmp(emp);
     return emp;
@@ -27,12 +28,63 @@ export class ReimburseServiceImp implements ReimburseService {
     return mergedReimburses;
   }
 
-  async getReimbursesForEmp(empId: string): Promise<Reimburse[]> {
-    const emp: Employee = await this.employeeDAO.getEmpById(empId);
+  async getReimbursesForEmp(username: string): Promise<Reimburse[]> {
+    const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
     return emp.reimburseAccount;
   }
-  getReimburseById(reimburseId: string): Promise<Reimburse> {
-    throw new Error('Method not implemented.');
+
+  async getSingleReimForEmp(
+    username: string,
+    reimId: string
+  ): Promise<Reimburse> {
+    const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
+    return emp.reimburseAccount.find(({ id }) => id === reimId);
+  }
+
+  async approveReimForEmp(username: string, reimId: string): Promise<Employee> {
+    const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
+    //get the single reimburse obj to update
+    const updatedReimburse: Reimburse = emp.reimburseAccount.find(
+      (i) => i.id === reimId
+    );
+    //find index to splice off of emp reim accounts
+    const index: number = emp.reimburseAccount.findIndex(
+      (i) => i.id === reimId
+    );
+    // remove the old account
+    emp.reimburseAccount.splice(index, 1);
+    //update new account to add
+    updatedReimburse.isApproved = true;
+    updatedReimburse.isPending = false;
+    // add updated account to emp account array
+    emp.reimburseAccount.push(updatedReimburse);
+
+    await this.employeeDAO.updateEmp(emp);
+
+    return emp;
+  }
+
+  async denyReimForEmp(username: string, reimId: string): Promise<Employee> {
+    const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
+    //get the single reimburse obj to update
+    const updatedReimburse: Reimburse = emp.reimburseAccount.find(
+      (i) => i.id === reimId
+    );
+    //find index to splice off of emp reim accounts
+    const index: number = emp.reimburseAccount.findIndex(
+      (i) => i.id === reimId
+    );
+    // remove the old account
+    emp.reimburseAccount.splice(index, 1);
+    //update new account to add
+    updatedReimburse.isApproved = false;
+    updatedReimburse.isPending = false;
+    // add updated account to emp account array
+    emp.reimburseAccount.push(updatedReimburse);
+
+    await this.employeeDAO.updateEmp(emp);
+
+    return emp;
   }
 
   async addEmp(emp: Employee): Promise<Employee> {

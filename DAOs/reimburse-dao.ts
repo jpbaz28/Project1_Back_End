@@ -1,7 +1,8 @@
+import Employee from '../Entities/employee';
 import Reimburse from '../Entities/reimburse';
 
 export interface ReimburseDAO {
-  createReimburse(reimburse: Reimburse): Promise<Reimburse>;
+  addReimburseToEmp(empId: string, reimburse: Reimburse): Promise<Employee>;
 
   getAllReimburses(): Promise<Reimburse[]>;
 

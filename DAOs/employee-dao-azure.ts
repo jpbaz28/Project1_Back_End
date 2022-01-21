@@ -20,7 +20,6 @@ class EmployeeDAOAzure implements EmployeeDAO {
       password,
       reimburseAccount,
       isManager,
-      department,
     } = response.resource;
     return {
       id,
@@ -30,7 +29,6 @@ class EmployeeDAOAzure implements EmployeeDAO {
       password,
       reimburseAccount,
       isManager,
-      department,
     };
   }
   async getEmpById(empId: string): Promise<Employee> {
@@ -43,7 +41,6 @@ class EmployeeDAOAzure implements EmployeeDAO {
       password,
       reimburseAccount,
       isManager,
-      department,
     } = emp.resource;
     return {
       id,
@@ -53,7 +50,6 @@ class EmployeeDAOAzure implements EmployeeDAO {
       password,
       reimburseAccount,
       isManager,
-      department,
     };
   }
 
@@ -71,7 +67,6 @@ class EmployeeDAOAzure implements EmployeeDAO {
       password: e.password,
       reimburseAccount: e.reimburseAccount,
       isManager: e.isManager,
-      department: e.department,
     }));
   }
   async updateEmp(emp: Employee): Promise<Employee> {

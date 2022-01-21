@@ -1,4 +1,5 @@
 export default interface Reimburse {
+  username: string;
   id: string;
   amount: number;
   date: string;

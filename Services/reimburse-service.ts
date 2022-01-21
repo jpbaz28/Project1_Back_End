@@ -6,9 +6,13 @@ export interface ReimburseService {
 
   getAllReimburses(): Promise<Reimburse[]>;
 
-  getReimbursesForEmp(empId: string): Promise<Reimburse[]>;
+  getReimbursesForEmp(username: string): Promise<Reimburse[]>;
 
-  getReimburseById(reimburseId: string): Promise<Reimburse>;
+  getSingleReimForEmp(username: string, reimId: string): Promise<Reimburse>;
+
+  approveReimForEmp(username: string, reimId: string): Promise<Employee>;
+
+  denyReimForEmp(username: string, reimId: string): Promise<Employee>;
 
   addEmp(emp: Employee): Promise<Employee>;
 
