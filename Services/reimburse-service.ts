@@ -10,9 +10,9 @@ export interface ReimburseService {
 
   getSingleReimForEmp(username: string, reimId: string): Promise<Reimburse>;
 
-  approveReimForEmp(username: string, reimId: string): Promise<Employee>;
+  approveReimForEmp(username: string, reimId: string): Promise<Reimburse[]>;
 
-  denyReimForEmp(username: string, reimId: string): Promise<Employee>;
+  denyReimForEmp(username: string, reimId: string): Promise<Reimburse[]>;
 
   addEmp(emp: Employee): Promise<Employee>;
 

@@ -41,7 +41,10 @@ export class ReimburseServiceImp implements ReimburseService {
     return emp.reimburseAccount.find(({ id }) => id === reimId);
   }
 
-  async approveReimForEmp(username: string, reimId: string): Promise<Employee> {
+  async approveReimForEmp(
+    username: string,
+    reimId: string
+  ): Promise<Reimburse[]> {
     const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
     //get the single reimburse obj to update
     const updatedReimburse: Reimburse = emp.reimburseAccount.find(
@@ -60,11 +63,11 @@ export class ReimburseServiceImp implements ReimburseService {
     emp.reimburseAccount.push(updatedReimburse);
 
     await this.employeeDAO.updateEmp(emp);
-
-    return emp;
+    const reimburses: Reimburse[] = await this.getAllReimburses();
+    return reimburses;
   }
 
-  async denyReimForEmp(username: string, reimId: string): Promise<Employee> {
+  async denyReimForEmp(username: string, reimId: string): Promise<Reimburse[]> {
     const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
     //get the single reimburse obj to update
     const updatedReimburse: Reimburse = emp.reimburseAccount.find(
@@ -84,7 +87,8 @@ export class ReimburseServiceImp implements ReimburseService {
 
     await this.employeeDAO.updateEmp(emp);
 
-    return emp;
+    const reimburses: Reimburse[] = await this.getAllReimburses();
+    return reimburses;
   }
 
   async addEmp(emp: Employee): Promise<Employee> {

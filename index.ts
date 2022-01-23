@@ -96,20 +96,20 @@ app.patch('/login', async (req, res) => {
 
 //approve reimbursement for emp
 app.patch('/reimbursements/approve/:username/:reimId', async (req, res) => {
-  const emp = await reimburseService.approveReimForEmp(
+  const reimburses: Reimburse[] = await reimburseService.approveReimForEmp(
     req.params.username,
     req.params.reimId
   );
-  res.status(200).send(emp);
+  res.status(200).send(reimburses);
 });
 
 //deny reimbursement for emp
 app.patch('/reimbursements/deny/:username/:reimId', async (req, res) => {
-  const emp = await reimburseService.denyReimForEmp(
+  const reimburses: Reimburse[] = await reimburseService.denyReimForEmp(
     req.params.username,
     req.params.reimId
   );
-  res.status(200).send(emp);
+  res.status(200).send(reimburses);
 });
 
 //delete emp
