@@ -13,6 +13,7 @@ env:
   PROJECT1_CONNECTION: ${{secrets.PROJECT1_CONNECTION}}
 
 jobs:
+  runs-on: 'ubuntu-latest'
   strategy:
     matrix:
       node-version: [12.x, 14.x, 16.x]
@@ -28,4 +29,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-      sonarcloud:
