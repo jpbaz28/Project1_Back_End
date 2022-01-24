@@ -23,14 +23,14 @@ app.get('/employees', async (req, res) => {
   res.status(200).send(emps);
 });
 
-// get emp by id
+// // get emp by id
 // app.get('/employees/:id', async (req, res) => {
 //   const { id } = req.params;
 //   const emp: Employee = await reimburseService.retrieveEmpById(id);
 //   res.send(emp);
 // });
 
-//get emp by username
+// get emp by username
 app.get('/employees/:username', async (req, res) => {
   const { username } = req.params;
   const emp: Employee = await reimburseService.retrieveEmpByUsername(username);
@@ -59,12 +59,12 @@ app.get('/reimbursements/:username/:reimId', async (req, res) => {
   res.status(200).send(reimburse);
 });
 
-//add emp
-app.post('/employees', async (req, res) => {
-  let emp: Employee = req.body;
-  emp = await reimburseService.addEmp(emp);
-  res.status(201).send(emp);
-});
+// //add emp
+// app.post('/employees', async (req, res) => {
+//   let emp: Employee = req.body;
+//   emp = await reimburseService.addEmp(emp);
+//   res.status(201).send(emp);
+// });
 
 //add reimbursement
 app.post('/employees/:id/reimbursements', async (req, res) => {

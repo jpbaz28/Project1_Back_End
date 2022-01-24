@@ -1,4 +1,9 @@
-import { CosmosClient } from '@azure/cosmos';
+import {
+  CosmosClient,
+  ItemResponse,
+  Resource,
+  ResourceResponse,
+} from '@azure/cosmos';
 import EmployeeDAO from './employee-dao';
 import { v4 } from 'uuid';
 import Employee from '../Entities/employee';
@@ -32,7 +37,9 @@ class EmployeeDAOAzure implements EmployeeDAO {
     };
   }
   async getEmpById(empId: string): Promise<Employee> {
-    const emp = await this.container.item(empId, empId).read<Employee>();
+    const emp: ItemResponse<Employee> = await this.container
+      .item(empId, empId)
+      .read<Employee>();
     const {
       id,
       fname,
