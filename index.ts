@@ -124,4 +124,12 @@ app.delete('/employees/:id', async (req, res) => {
   }
 });
 
+//Delete all reimburses for emp
+app.delete('/reimbursements/:username', async (req, res) => {
+  const reimburses: Reimburse[] = await reimburseService.deleteAllReimForEmp(
+    req.params.username
+  );
+  res.send(reimburses);
+});
+
 app.listen(5000, () => console.log('App Started!'));

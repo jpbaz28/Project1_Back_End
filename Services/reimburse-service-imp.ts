@@ -91,6 +91,13 @@ export class ReimburseServiceImp implements ReimburseService {
     return reimburses;
   }
 
+  async deleteAllReimForEmp(username: string): Promise<Reimburse[]> {
+    const emp: Employee = await this.employeeDAO.getEmpByUsername(username);
+    emp.reimburseAccount = [];
+    const updatedEmp = await this.employeeDAO.updateEmp(emp);
+    return updatedEmp.reimburseAccount;
+  }
+
   async addEmp(emp: Employee): Promise<Employee> {
     emp.reimburseAccount = emp.reimburseAccount ?? [];
     emp = await this.employeeDAO.createEmp(emp);

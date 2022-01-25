@@ -10,6 +10,8 @@ export interface ReimburseService {
 
   getSingleReimForEmp(username: string, reimId: string): Promise<Reimburse>;
 
+  deleteAllReimForEmp(username: string): Promise<Reimburse[]>;
+
   approveReimForEmp(username: string, reimId: string): Promise<Reimburse[]>;
 
   denyReimForEmp(username: string, reimId: string): Promise<Reimburse[]>;
