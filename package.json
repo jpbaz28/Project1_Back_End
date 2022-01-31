@@ -6,14 +6,16 @@
     "@types/uuid": "^8.3.3",
     "cors": "^2.8.5",
     "express": "^4.17.2",
-    "uuid": "^8.3.2"
+    "ts-node": "^10.4.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.5.0"
   },
   "name": "project1_back_end",
   "description": "Back  End Data access functionality written in TS",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "start": "ts-node index.ts"
   },
   "repository": {

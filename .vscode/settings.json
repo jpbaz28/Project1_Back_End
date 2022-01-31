@@ -1,0 +1,4 @@
+{
+  "appService.deploySubpath": ".",
+  "appService.defaultWebAppToDeploy": "/subscriptions/5790c114-ada7-4696-9918-aa8215fbe364/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/bertrand-project1-backend"
+}

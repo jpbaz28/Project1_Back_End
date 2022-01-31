@@ -16,6 +16,7 @@ export interface ReimburseService {
 
   denyReimForEmp(username: string, reimId: string): Promise<Reimburse[]>;
 
+  //Employee CRUD
   addEmp(emp: Employee): Promise<Employee>;
 
   retrieveEmpById(empId: string): Promise<Employee>;
